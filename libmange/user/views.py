@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate , login , logout
  
 # Create your views here.
 
-def signup(request):
+def signup_view(request):
     
     if request.method == 'POST':
         username = request.POST['username']
@@ -25,10 +25,10 @@ def signup(request):
             return HttpResponse('success')
         else:
             return HttpResponse ('passworrd Do Not Match')
-    render (request , 'user/signup.html')
+    return render (request , 'user/signup.html')
     
     
-def login(request):
+def login_view(request):
     
     if request.method == 'POST':
         username = request.POST['username']
@@ -41,4 +41,6 @@ def login(request):
         
         else: 
             return HttpResponse('Failed')
-    render (request , 'user/login.html')
+    return render(request , 'user/login.html')
+    
+    
