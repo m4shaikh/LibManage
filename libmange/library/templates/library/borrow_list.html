@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Borrowed Books</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2c3e50;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+    }
+    header nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .borrow-list {
+      list-style: none;
+      padding: 0;
+    }
+    .borrow-item {
+      border-bottom: 1px solid #ccc;
+      padding: 15px 0;
+    }
+    .borrow-item:last-child {
+      border-bottom: none;
+    }
+    .borrow-item h2 {
+      margin-bottom: 5px;
+      color: #3498db;
+    }
+    .borrow-item p {
+      margin: 3px 0;
+      color: #7f8c8d;
+    }
+    .return-button {
+      display: inline-block;
+      background-color: #16a085;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .return-button:hover {
+      background-color: #1abc9c;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c3e50;
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Library Management System</h1>
+    <nav>
+      <a href="{% url 'home_view' %}">Home</a>
+      
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h1>My Borrowed Books</h1>
+    <ul class="borrow-list">
+      {% for borrow in borrows %}
+      <li class="borrow-item">
+        <h2>{{ borrow.book.title }}</h2>
+        <p><strong>Borrow Date:</strong> {{ borrow.borrow_date }}</p>
+        <p><strong>Due Date:</strong> {{ borrow.due_date }}</p>
+        {% if borrow.is_returned %}
+          <p><strong>Returned on:</strong> {{ borrow.returned_date }}</p>
+          <p><strong>Fine:</strong> ${{ borrow.calculate_fine }}</p>
+        {% else %}
+          <a href="{% url 'return_book' borrow.id %}" class="return-button">Return Book</a>
+        {% endif %}
+      </li>
+      {% empty %}
+      <p>You have not borrowed any books.</p>
+      {% endfor %}
+    </ul>
+  </main>
+  <footer>
+    <p>&copy; 2025 Library Management System</p>
+  </footer>
+</body>
+</html>

@@ -1,108 +1,141 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
-        header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-
-        .signup-container {
-            max-width: 450px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .signup-container h1 {
-            text-align: center;
-            color: #34495e;
-        }
-
-        .signup-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-
-        .signup-container button {
-            width: 100%;
-            background-color: #3498db;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1.1em;
-        }
-
-        .signup-container button:hover {
-            background-color: #2980b9;
-        }
-
-        .signup-message {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .signup-message a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        .signup-message a:hover {
-            text-decoration: underline;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <style>
+    /* Global Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      padding: 20px;
+    }
+    header {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2em;
+    }
+    /* Container for Signup Form */
+    .signup-container {
+      max-width: 450px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .signup-container h1 {
+      text-align: center;
+      color: #34495e;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    .signup-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .signup-container input[type="text"],
+    .signup-container input[type="email"],
+    .signup-container input[type="password"],
+    .signup-container input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .signup-container label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    /* User Type Selection Styling */
+    .user-type {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      margin: 10px 0;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .user-type .option {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    /* Signup Button */
+    .signup-container button {
+      width: 100%;
+      background-color: #3498db;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+    }
+    .signup-container button:hover {
+      background-color: #2980b9;
+    }
+    /* Signup Message */
+    .signup-message {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .signup-message a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    .signup-message a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Signup</h1>
-    </header>
-
-    <div class="signup-container">
-        <h1>Create an Account</h1>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <input type="text" name="phone" placeholder="Phone Number" required>
-            <button type="submit">Signup</button>
-        </form>
-        <div class="signup-message">
-            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+  <header>
+    <h1>Signup</h1>
+  </header>
+  <div class="signup-container">
+    <h1>Create an Account</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      
+            <!-- User Type Selection -->
+      <div class="user-type">
+        <div class="option">
+          <input type="radio" name="user_type" value="user" id="user" checked>
+          <label for="user">User</label>
         </div>
+        <div class="option">
+          <input type="radio" name="user_type" value="author" id="author">
+          <label for="author">Author</label>
+        </div>
+      </div>
+      
+      <button type="submit">Signup</button>
+    </form>
+    <div class="signup-message">
+      <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </div>
+  </div>
 </body>
 </html>

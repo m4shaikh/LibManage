@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ book.title }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2c3e50;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    header nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    p {
+      margin: 8px 0;
+    }
+    .meta {
+      color: #7f8c8d;
+      font-size: 0.9em;
+    }
+    .tags {
+      margin-top: 10px;
+      font-size: 0.95em;
+      color: #3498db;
+    }
+    .borrow-button {
+      display: inline-block;
+      background-color: #16a085;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    .borrow-button:hover {
+      background-color: #1abc9c;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c3e50;
+      color: white;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Library Management System</h1>
+    <nav>
+      <a href="{% url 'home_view' %}">Home</a>
+      <a >Profile</a>
+      <a >Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h1>{{ book.title }}</h1>
+    <p class="meta">Author: {{ book.author }}</p>
+    <p>{{ book.description }}</p>
+    <p><strong>Available Copies:</strong> {{ book.availlable_copies }} / {{ book.total_copies }}</p>
+    {% if book.tags.all %}
+    <p class="tags"><strong>Tags:</strong> 
+      {% for tag in book.tags.all %}
+        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+    {% endif %}
+    <a href="{% url 'borrow_book' book.id %}" class="borrow-button">Borrow This Book</a>
+  </main>
+  <footer>
+    <p>&copy; 2025 Library Management System</p>
+  </footer>
+</body>
+</html>

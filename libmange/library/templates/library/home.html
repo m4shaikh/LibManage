@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Home</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #2c3e50;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+    }
+    header nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    header nav a:hover {
+      color: #1abc9c;
+    }
+    main {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    /* Create New Book Button */
+    a.btn.btn-primary {
+      display: block;
+      background-color: #16a085;
+      color: #fff;
+      font-size: 1.2em;
+      padding: 12px 25px;
+      text-align: center;
+      border-radius: 5px;
+      margin: 0 auto 30px;
+      width: fit-content;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    a.btn.btn-primary:hover {
+      background-color: #1abc9c;
+    }
+    /* Book List */
+    .book-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .book-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+    .book-card h2 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    .book-card h2 a {
+      text-decoration: none;
+      color: #3498db;
+    }
+    .book-card h2 a:hover {
+      text-decoration: underline;
+    }
+    .book-card p {
+      margin: 5px 0;
+      color: #7f8c8d;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c3e50;
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Library Management System</h1>
+    <nav>
+      <a href="{% url 'home_view' %}">Home</a>
+      <a href="{% url 'borrow_list' %}">Borrowed Books</a>
+      <a href="">Profile</a>
+      {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+          <a href="{% url 'signup' %}">Signup</a>
+          <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    <h1>Available Books</h1>
+    <a href="{% url 'create_book' %}" class="btn btn-primary">Add New Book</a>
+    <div class="book-list">
+      {% for book in books %}
+      <div class="book-card">
+        <h2><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Description:</strong> {{ book.description|truncatewords:30 }}</p>
+        <p><strong>Available Copies:</strong> {{ book.availlable_copies }} / {{ book.total_copies }}</p>
+        {% if book.tags.all %}
+        <p><strong>Tags:</strong>
+          {% for tag in book.tags.all %}
+            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% endif %}
+      </div>
+      {% empty %}
+      <p>No books available at this time.</p>
+      {% endfor %}
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2025 Library Management System</p>
+  </footer>
+</body>
+</html>
